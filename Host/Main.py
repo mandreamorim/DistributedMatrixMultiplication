@@ -1,9 +1,12 @@
-# /controller/controller.py (Função de Verificação)
-
+import os
 import socket
-from common import enviar_heartbeat_request, receber_heartbeat_response
+import sys
 import time
 
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(project_root)
+
+from common import enviar_heartbeat_request, receber_heartbeat_response
 
 def verificar_status_servidor(ip: str, port: int, timeout: float = 0.5) -> bool:
     try:

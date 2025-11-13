@@ -1,6 +1,10 @@
-# /servers/server.py (Estrutura do Módulo de Servidor)
-
+import os
 import socket
+import sys
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(project_root)
+
 from common import HEARTBEAT_REQUEST, HEARTBEAT_RESPONSE, HEARTBEAT_SIZE
 
 HOST = '0.0.0.0'
