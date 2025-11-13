@@ -1,12 +1,7 @@
-import os
 import socket
-import sys
 import time
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.append(project_root)
-
-from common import enviar_heartbeat_request, receber_heartbeat_response
+from Utils import enviar_heartbeat_request, receber_heartbeat_response
 
 def verificar_status_servidor(ip: str, port: int, timeout: float = 0.5) -> bool:
     try:
@@ -18,7 +13,7 @@ def verificar_status_servidor(ip: str, port: int, timeout: float = 0.5) -> bool:
                 return False
 
             if receber_heartbeat_response(s):
-                print(f"Servidor {ip}:{port} está ativo. Latência baixa.")
+                print(f"Servidor {ip}:{port} está ativo.")
                 return True
 
             return False
@@ -37,11 +32,13 @@ if __name__ == '__main__':
 
     start_time = time.time()
 
-    servidores_ativos = [(ip, port) for ip, port in SERVERS
-                         if verificar_status_servidor(ip, port)]
+    servidores_ativos = []
+    for ip, port in SERVERS:
+        if verificar_status_servidor(ip, port):
+            servidores_ativos.append(ip)
 
     end_time = time.time()
 
     print("-" * 30)
-    print(f"Verificação concluída em {end_time - start_time:.3f} segundos.")
+    print(f"Verificação concluída em {end_time - start_time:.5f} segundos.")
     print(f"Servidores prontos para o cálculo: {servidores_ativos}")
